@@ -1,75 +1,85 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
 import { Typewriter } from "react-simple-typewriter";
+import { motion } from "framer-motion";
 
 export const HomeView = () => {
-  const { data: session } = authClient.useSession();
-  const router = useRouter();
-
-  if (!session) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-black">
-        <div className="text-center space-y-4">
-          <div className="animate-pulse text-yellow-400 text-lg font-semibold">
-            Patientez...
-          </div>
-          <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-        </div>
-      </div>
-    );
-  }
+  const trpc = useTRPC();
+  const { data } = useQuery(trpc.hello.queryOptions({ text: "TheMagician" }));
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black px-4">
-      <div className="bg-zinc-900 shadow-2xl rounded-3xl p-8 max-w-md w-full border border-yellow-500 flex flex-col items-center space-y-6 transition-all duration-300 ease-in-out">
-        
-        {/* Avatar */}
-        <img
-          src={session.user.image || "/default-avatar.png"}
-          alt="Photo de profil"
-          className="w-24 h-24 rounded-full border-4 border-yellow-400 shadow-md object-cover"
-        />
+    <div className="relative min-h-screen w-full flex flex-col justify-center items-center bg-[#05060e] text-white px-4 py-20 overflow-hidden">
 
-        {/* Nom stylisé */}
-        <h1 className="text-2xl font-bold text-yellow-400 text-center">
-          Bienvenue, <span className="text-emerald-400">{session.user.name}</span> 👑
+      {/* --- Background Layers --- */}
+      <div className="absolute inset-0 -z-20 bg-gradient-to-br from-[#0f172a] via-[#05060e] to-black" />
+      <div className="absolute inset-0 -z-10 bg-[url('/grid.svg')] opacity-[0.03] bg-cover" />
+
+      {/* --- Glow Effect --- */}
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[120px] -z-10" />
+
+      {/* --- Title & Tagline --- */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="text-center max-w-4xl"
+      >
+        <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 bg-clip-text text-transparent leading-tight tracking-tight drop-shadow-xl">
+          Meet Callawa AI
         </h1>
+        <p className="mt-6 text-xl md:text-2xl text-gray-400 font-light">
+          Your AI scheduling assistant for smarter, stress-free call meetings.
+        </p>
+      </motion.div>
 
-        {/* Message animé */}
-        <p className="text-emerald-300 text-center px-2 italic leading-relaxed">
+      {/* --- Typewriter Messages --- */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.6 }}
+        className="mt-10"
+      >
+        <p className="text-cyan-300 text-base md:text-lg font-mono text-center">
           <Typewriter
             words={[
-              "Espace sécurisé prêt.",
-              "Prenez le contrôle de votre tableau de bord.",
-              "Personnalisez votre expérience.",
-              "Restez productif et protégé."
+              "Seamless call scheduling. Powered by AI.",
+              "Call confirmations, reminders, and follow-ups.",
+              "Avoid conflicts. Let AI handle timezones.",
+              "Built for teams, freelancers & enterprises."
             ]}
-            loop={true}
+            loop
             cursor
             cursorStyle="|"
             typeSpeed={50}
             deleteSpeed={30}
-            delaySpeed={2000}
+            delaySpeed={1800}
           />
         </p>
+      </motion.div>
 
-        {/* Bouton */}
-        <Button
-          onClick={() => authClient.signOut({
-               fetchOptions: { 
-                    onSuccess:() => router.push("/sign-in")
-               }}
-          )}
-          className="w-full bg-emerald-600 hover:bg-emerald-500 focus:ring-4 focus:ring-emerald-300 focus:outline-none text-white font-semibold py-2 px-4 rounded-xl transition duration-200"
+      {/* --- AI Greeting (if present) --- */}
+      {data?.greeting && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2 }}
+          className="mt-14 px-6 py-5 border border-cyan-600/30 bg-white/5 rounded-xl backdrop-blur-lg text-gray-300 max-w-lg text-center shadow-md"
         >
-          🚪 Se déconnecter
-        </Button>
-      </div>
+          <span className="text-cyan-400 font-medium"> 🤖 Callawa AI  :</span> {data.greeting}
+        </motion.div>
+      )}
+
+      {/* --- Footer Info --- */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5 }}
+        className="mt-16 text-[11px] text-gray-500 uppercase tracking-wider"
+      >
+        Smart Scheduling Engine · Real-time Calendar Sync · AI Assistance
+      </motion.div>
     </div>
   );
 };
-
-
