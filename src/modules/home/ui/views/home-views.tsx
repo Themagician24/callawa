@@ -7,47 +7,56 @@ import { motion } from "framer-motion";
 
 export const HomeView = () => {
   const trpc = useTRPC();
-  const { data } = useQuery(trpc.hello.queryOptions({ text: "TheMagician" }));
+  // Replace 'hello' with the correct procedure name from your tRPC router, e.g. 'greeting' or another valid endpoint
+    const { data } = useQuery(trpc.Hi.queryOptions({ text: "TheMagician" }));
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col justify-center items-center bg-[#05060e] text-white px-4 py-20 overflow-hidden">
+    <div className="relative min-h-screen flex flex-col justify-between bg-[#0A0A0A] text-white px-6 py-8 font-sans overflow-hidden">
 
-      {/* --- Background Layers --- */}
-      <div className="absolute inset-0 -z-20 bg-gradient-to-br from-[#0f172a] via-[#05060e] to-black" />
-      <div className="absolute inset-0 -z-10 bg-[url('/grid.svg')] opacity-[0.03] bg-cover" />
+      {/* === Glow Backgrounds === */}
+      <div className="absolute inset-0 -z-20 bg-gradient-to-br from-black via-[#0A0A0A] to-gray-900" />
+      <div className="absolute -top-36 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#00FFAB]/25 rounded-full blur-[140px] -z-10" />
+      <div className="absolute inset-0 -z-10 bg-[url('/grid.svg')] opacity-[0.04] bg-cover" />
 
-      {/* --- Glow Effect --- */}
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[120px] -z-10" />
-
-      {/* --- Title & Tagline --- */}
+      {/* === Greeting top left === */}
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.2 }}
+        className="absolute top-6 left-6 px-4 py-2 rounded-lg border border-[#00FFAB]/30 bg-white/5 text-[#00FFAB] shadow-sm backdrop-blur-sm text-sm md:text-base max-w-[80%]"
+      >
+        <span className="font-semibold">🤖 Callawa:</span> {data?.Hi ?? "Hi!"}
+      </motion.div>
+
+      {/* === Main Title Center === */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="text-center max-w-4xl"
+        className="flex flex-col items-center justify-center flex-1 text-center px-4"
       >
-        <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 bg-clip-text text-transparent leading-tight tracking-tight drop-shadow-xl">
-          Meet Callawa AI
+        <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-[#00FFAB] via-green-400 to-[#00FFAB] bg-clip-text text-transparent leading-tight tracking-tight drop-shadow-[0_0_20px_#00FFAB80]">
+          Your Smart Call Assistant
         </h1>
-        <p className="mt-6 text-xl md:text-2xl text-gray-400 font-light">
-          Your AI scheduling assistant for smarter, stress-free call meetings.
+        <p className="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl font-light">
+          Manage and automate all your call appointments with Callawa’s powerful AI.
         </p>
       </motion.div>
 
-      {/* --- Typewriter Messages --- */}
+      {/* === Typewriter Bottom === */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.6 }}
-        className="mt-10"
+        transition={{ delay: 0.5 }}
+        className="pb-10 text-center"
       >
-        <p className="text-cyan-300 text-base md:text-lg font-mono text-center">
+        <p className="text-[#00FFAB] text-sm md:text-base font-mono drop-shadow-[0_0_5px_#00FFAB80]">
           <Typewriter
             words={[
-              "Seamless call scheduling. Powered by AI.",
-              "Call confirmations, reminders, and follow-ups.",
-              "Avoid conflicts. Let AI handle timezones.",
-              "Built for teams, freelancers & enterprises."
+              "Call scheduling made intelligent.",
+              "Automated appointment management.",
+              "Never miss a meeting again.",
+              "Callawa keeps your time in sync."
             ]}
             loop
             cursor
@@ -57,28 +66,6 @@ export const HomeView = () => {
             delaySpeed={1800}
           />
         </p>
-      </motion.div>
-
-      {/* --- AI Greeting (if present) --- */}
-      {data?.greeting && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
-          className="mt-14 px-6 py-5 border border-cyan-600/30 bg-white/5 rounded-xl backdrop-blur-lg text-gray-300 max-w-lg text-center shadow-md"
-        >
-          <span className="text-cyan-400 font-medium"> 🤖 Callawa AI  :</span> {data.greeting}
-        </motion.div>
-      )}
-
-      {/* --- Footer Info --- */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5 }}
-        className="mt-16 text-[11px] text-gray-500 uppercase tracking-wider"
-      >
-        Smart Scheduling Engine · Real-time Calendar Sync · AI Assistance
       </motion.div>
     </div>
   );
