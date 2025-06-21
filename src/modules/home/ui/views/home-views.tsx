@@ -1,15 +1,10 @@
 "use client";
 
-import { useTRPC } from "@/trpc/client";
-import { useQuery } from "@tanstack/react-query";
+
 import { Typewriter } from "react-simple-typewriter";
 import { motion } from "framer-motion";
 
 export const HomeView = () => {
-  const trpc = useTRPC();
-  // Replace 'hello' with the correct procedure name from your tRPC router, e.g. 'greeting' or another valid endpoint
-    const { data } = useQuery(trpc.Hi.queryOptions({ text: "TheMagician" }));
-
   return (
     <div className="relative min-h-screen flex flex-col justify-between bg-[#0A0A0A] text-white px-6 py-8 font-sans overflow-hidden">
 
@@ -25,7 +20,7 @@ export const HomeView = () => {
         transition={{ delay: 0.2 }}
         className="absolute top-6 left-6 px-4 py-2 rounded-lg border border-[#00FFAB]/30 bg-white/5 text-[#00FFAB] shadow-sm backdrop-blur-sm text-sm md:text-base max-w-[80%]"
       >
-        <span className="font-semibold">🤖 Callawa:</span> {data?.Hi ?? "Hi!"}
+        <p>👋 Hello, I&#39;m Callawa! I&lsquo;m here to help you manage your call appointments.</p>
       </motion.div>
 
       {/* === Main Title Center === */}
