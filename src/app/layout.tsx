@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/client";
+import { Toaster } from "@/components/ui/sonner";
 
 // Chargement des polices avec les variables CSS
 const inter = Inter({
@@ -63,6 +64,7 @@ export default function RootLayout({
     <TRPCReactProvider>
       <html lang="fr" className={`${inter.variable} ${firaCode.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
+        <Toaster />
         {children}
       </body>
     </html>
