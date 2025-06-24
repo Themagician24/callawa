@@ -5,7 +5,7 @@ import { getQueryClient, trpc } from '@/trpc/server';
 import { Suspense } from 'react';
 
 import { ErrorBoundary } from 'react-error-boundary';
-import { AgentsView, AgentsViewError, AgentsViewLoading } from '@/modules/agents/views/agent-views';
+import { AgentsView, AgentsViewError, AgentsViewLoading } from '@/modules/agents/ui/views/agent-views';
 import AgentsListHeader from '@/modules/agents/ui/components/agents-list-header';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
