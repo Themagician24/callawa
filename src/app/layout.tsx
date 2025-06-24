@@ -5,6 +5,7 @@ import { Inter, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "@/components/ui/sonner";
+import { NuqsAdapter } from "nuqs/adapters/next";
 
 // Chargement des polices avec les variables CSS
 const inter = Inter({
@@ -61,6 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <NuqsAdapter>
     <TRPCReactProvider>
       <html lang="fr" className={`${inter.variable} ${firaCode.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
@@ -69,6 +71,7 @@ export default function RootLayout({
       </body>
     </html>
     </TRPCReactProvider>
+    </NuqsAdapter>
     
   );
 }

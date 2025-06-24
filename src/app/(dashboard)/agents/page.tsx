@@ -10,16 +10,19 @@ import AgentsListHeader from '@/modules/agents/ui/components/agents-list-header'
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import type { SearchParams } from 'nuqs';
+import { loadSearchParams } from '@/modules/agents/params';
 
 
+interface Props {
+  searchParams: Promise<SearchParams>;
+}
 
 
+const Page = async ({ searchParams } : Props) => {
 
-
-/**
- * Server-side rendered page with dehydrated React Query cache
- */
-const Page = async () => {
+  const filters = await loadSearchParams(searchParams);
+ 
 
   //Protection des donnees 
 
@@ -35,7 +38,9 @@ const Page = async () => {
   const queryClient = getQueryClient();
 
   // Pré-fetch les agents via le client TRPC server-side
-  void queryClient.prefetchQuery(trpc.agents.getMany.queryOptions());
+  void queryClient.prefetchQuery(trpc.agents.getMany.queryOptions({
+    ...filters,
+  }));
 
   return (
 
