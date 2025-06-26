@@ -83,7 +83,7 @@ export const agents = pgTable("agents", {
 })
 
 export const meetingStatus = pgEnum("meeting_status", [
-  "Upcoming",
+  "upcoming",
   "active",
   "completed",
   "processing",
@@ -109,7 +109,7 @@ export const meetings = pgTable("meetings", {
   .notNull()
   .references(() => agents.id, { onDelete: "cascade" }),
 
-  status: meetingStatus("status").notNull().default("Upcoming"),
+  status: meetingStatus("status").notNull().default("upcoming"),
 
   startedAt: timestamp("start_time"),
   endedAt: timestamp("end_time"),
