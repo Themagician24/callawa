@@ -7,4 +7,10 @@ export const agentsInsertSchema = z.object(
    identifier: z.string().min(2, "Identifier is required").max(50, "Identifier is too long"),
 
   }
-)
+);
+
+
+export const agentsUpdateSchema = agentsInsertSchema.extend({ 
+  id: z.string().min(2, "Id is required").max(50, "Id is too long"),
+  
+ });
