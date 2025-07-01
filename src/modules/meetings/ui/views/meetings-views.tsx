@@ -17,8 +17,9 @@ const MeetingsViews = () => {
 
   return (
     <div>
+      Data Table
 
-      {JSON.stringify(data)}
+      {/* TODO: DATA TABLE */}
 
     </div>
   )
