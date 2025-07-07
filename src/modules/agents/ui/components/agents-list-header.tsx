@@ -22,10 +22,6 @@ export const AgentsListHeader = () => {
      });
   }
 
-
-
-
-
   return (
     <>
       <NewAgentDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />

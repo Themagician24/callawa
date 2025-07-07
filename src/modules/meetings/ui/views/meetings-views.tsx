@@ -4,7 +4,8 @@ import { ErrorState } from '@/components/error-state';
 import { LoadingState } from '@/components/loading-state';
 import { useTRPC } from '@/trpc/client';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import React from 'react'
+
+
 
 const MeetingsViews = () => {
 
@@ -16,9 +17,9 @@ const MeetingsViews = () => {
 
 
   return (
-    <div>
+    <div className='overflow-x-scroll '>
 
-      {JSON.stringify(data)}
+     {/* {JSON.stringify(data)} */}
 
     </div>
   )

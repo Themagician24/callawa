@@ -99,7 +99,7 @@ export const meetings = pgTable("meetings", {
   .primaryKey()
   .$defaultFn(() => nanoid()),
 
-  identifier: text("identifier").notNull(),
+  // identifier: text("identifier").notNull(),
   name: text("name").notNull(),
   userId: text("user_id")
   .notNull()
