@@ -36,6 +36,15 @@ function Command({
   )
 }
 
+/**
+ * Displays a command palette inside a dialog with accessible title and description.
+ *
+ * Renders a modal dialog containing the command palette UI, with optional custom title, description, and close button visibility. Children are rendered inside the command palette area.
+ *
+ * @param title - The dialog's accessible title (default: "Command Palette").
+ * @param description - The dialog's accessible description (default: "Search for a command to run...").
+ * @param showCloseButton - Whether to display the close button in the dialog (default: true).
+ */
 function CommandDialog({
   title = "Command Palette",
   description = "Search for a command to run...",
@@ -73,6 +82,14 @@ function CommandDialog({
 
 
 
+/**
+ * Renders a responsive command palette dialog that adapts to mobile and desktop devices.
+ *
+ * On mobile devices, displays the command palette in a drawer; on desktop, uses a dialog. Supports custom titles, descriptions, and optional filtering of command items.
+ *
+ * @param shouldFilter - If false, disables filtering of command items in the palette
+ * @param showCloseButton - Controls visibility of the close button in the dialog (desktop only)
+ */
 function CommandResponsiveDialog({
   title = "Command Palette",
   description = "Search for a command to run...",
