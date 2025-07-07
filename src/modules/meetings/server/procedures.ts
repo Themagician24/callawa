@@ -8,7 +8,7 @@ import { DEFAULT_PAGE,
 
 import { db } from '@/db';
 import { meetings } from '@/db/schema';
-import { meetingsInsertSchema, meetingsUpdateSchema } from '@/modules/meetings/schemas';
+import { meetingsInsertSchema, meetingsUpdateSchema } from '@/modules/meetings/schema';
 
 import { createTRPCRouter , protectedProcedure } from '@/trpc/init';
 import { TRPCError } from '@trpc/server';
@@ -20,13 +20,14 @@ import { z } from 'zod';
 
 export const meetingsRouter = createTRPCRouter({
 
-   // routes/agent.ts
   update: protectedProcedure
     .input(meetingsUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       const [updatedMeeting] = await db
         .update(meetings)
-        .set(input)
+        .set(
+          input
+        )
         .where(
           and(
             eq(meetings.id, input.id),
@@ -34,33 +35,35 @@ export const meetingsRouter = createTRPCRouter({
           )
         )
         .returning();
-  
+
       if (!updatedMeeting) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Meeting not found",
         });
       }
-  
+
       return updatedMeeting;
     }),
 
-   create: protectedProcedure
+
+
+    create: protectedProcedure
     .input(meetingsInsertSchema)
     .mutation(async ({ input, ctx }) => {
-      const  [ createdMeeting ] =  await db
+      const  [ createMeeting ] =  await db
       .insert(meetings)
       .values({
         ...input,
         userId: ctx.auth.user.id,
-       
       })
-      .returning();
+      .returning()
 
-      // TODO: Create Stream Call, Upsert Stream Users
-  
-      return createdMeeting;
-    
+      
+      // TODO: Create stream call ,Upsert stream Users
+
+      return createMeeting;
+
     }),
 
  
